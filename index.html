@@ -11,40 +11,33 @@
   <div class="main">
     <!-- 组件区域开始 -->
     <div id="left">
-      <p 
-      style="
-        color: #2c3e50; 
-        font-size: 15px; 
-        font-weight: 600;"
-      draggable="true">预览文本</p>
-      <br>
-      <button 
-      style="
-        border: none;
-        outline: none;
-        background-color: #1abc9c;
-        padding: 4px 8px;
-        border-radius: 5px;
-        font-size: 15px;
-        font-weight: 600;
-        color: #fff;" 
-      draggable="true">预览按钮</button>
-      <br><br>
-      <input 
-      style="
-        border: none; 
-        outline: none;
-        padding: 4px 0 4px 10px; 
-        border-radius: 5px;
-        color: #2c3e50;" 
-      placeholder="预览输入框" type="text" draggable="true">
-      <br><br>
-      <img 
-      style="
-        width: 150px;
-        height: 200px;
-        border-radius: 5px;" 
-      src="./img/demo.jpg" alt="">
+      <h3>组件库</h3>
+      <p draggable="true">预览文本</p>
+      <button draggable="true">预览按钮</button>
+      <input placeholder="预览输入框" type="text" draggable="true">
+      <img src="./img/demo.jpg" alt="示例图片" draggable="true">
+      <!-- 新增组件 -->
+      <textarea placeholder="预览文本域" draggable="true"></textarea>
+      <!-- 用div包装select元素以解决拖拽问题 -->
+      <div draggable="true" class="select-wrapper">
+        <select>
+          <option>选项1</option>
+          <option>选项2</option>
+          <option>选项3</option>
+        </select>
+      </div>
+      <div draggable="true">
+        <input type="checkbox" id="checkbox1">
+        <label for="checkbox1">复选框</label>
+      </div>
+      <div draggable="true">
+        <input type="radio" id="radio1" name="radioGroup">
+        <label for="radio1">单选框</label>
+      </div>
+      <div draggable="true">
+        <input type="range" min="0" max="100" value="50">
+        <span>滑块</span>
+      </div>
     </div>
     <!-- 组件区域结束 -->
     <!-- 编辑区域开始 -->
@@ -53,60 +46,47 @@
     <!-- 编辑区域结束 -->
     <!-- 属性区域开始 -->
     <div id="right">
+      <h3>属性面板</h3>
       <label class="item">
         <span class="text">width</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">height</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">top</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">left</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">text</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">src</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">color</span>
         <input class="inp" type="text">
       </label>
-      <br>
       <label class="item">
         <span class="text">font-size</span>
         <input class="inp" type="text">
       </label>
-      <br>
-      <label class="item">
-        <button class="btn change" style="width: 80%;">更新预览</button>
-      </label>
-      <br>
       <label class="item" title="双击退出全屏预览">
-        <button class="btn look" style="width: 80%;">全屏预览</button>
+        <button class="btn look">全屏预览</button>
       </label>
-      <br>
       <label class="item">
-        <button class="btn down" style="width: 80%;">下载预览区源码</button>
+        <button class="btn down">下载源码</button>
       </label>
-      <br>
       <label class="item">
-        <button class="btn clear" style="width: 80%;">清除全部</button>
+        <button class="btn clear">清除全部</button>
       </label>
     </div>
     <!-- 属性区域结束 -->

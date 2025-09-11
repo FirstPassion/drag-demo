@@ -1,42 +1,249 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .main {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
   width: 100%;
   min-height: 100vh;
-  background-color: aliceblue;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 #left {
-  width: calc(20% - 1%);
-  background-color: #dfe4ea;
-  padding: 1% 0 0 1%;
+  width: 20%;
+  background: #ffffff;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 20px 0 20px 20px;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  border: 1px solid #e8e8e8;
+}
+
+#left h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+#left p, #left button, #left input, #left img, #left textarea, #left select, #left div[draggable] {
+  margin-bottom: 16px;
+  cursor: grab;
+  transition: all 0.2s ease;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+}
+
+#left p:hover, #left button:hover, #left input:hover, #left img:hover, 
+#left textarea:hover, #left select:hover, #left div[draggable]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #1890ff;
+}
+
+#left p {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #f5f5f5;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+#left button {
+  border: 1px solid #d9d9d9;
+  outline: none;
+  background: #ffffff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  width: 100%;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+}
+
+#left input {
+  border: 1px solid #d9d9d9;
+  outline: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #333;
+  width: 100%;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+
+#left input:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+#left img {
+  width: 100%;
+  height: 80px;
+  object-fit: contain;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 新增组件的样式 */
+#left textarea {
+  width: 100%;
+  height: 80px;
+  resize: none;
+  padding: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+#left select {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+
+#left div[draggable] {
+  padding: 10px 12px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+}
+
+/* 为select包装器添加特殊样式 */
+#left .select-wrapper {
+  padding: 0;
+  background-color: #ffffff;
+}
+
+#left .select-wrapper select {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #ffffff;
+  font-size: 14px;
+  border: none;
+  outline: none;
+}
+
+#left div[draggable] input[type="checkbox"],
+#left div[draggable] input[type="radio"] {
+  margin-right: 8px;
+  cursor: grab;
+}
+
+#left div[draggable] input[type="range"] {
+  margin-right: 8px;
+  width: 70%;
+  cursor: grab;
+}
+
+#left div[draggable] label,
+#left div[draggable] span {
+  cursor: grab;
+  font-size: 14px;
+  color: #333;
 }
 
 #midden {
   width: 60%;
   position: relative;
-  background-color: #f1f2f6;
+  background: #ffffff;
   overflow: scroll;
   z-index: 0;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 40px);
+  border: 1px dashed #d9d9d9;
+  background-image: 
+    linear-gradient(#f0f0f0 1px, transparent 1px),
+    linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+#midden.drag-over {
+  background-image: 
+    linear-gradient(#1890ff 1px, transparent 1px),
+    linear-gradient(90deg, #1890ff 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+#midden:empty::before {
+  content: "请从左侧拖拽组件到此处";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #bfbfbf;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
 }
 
 #right {
   width: 20%;
-  background-color: #dfe4ea;
+  background: #ffffff;
   display: flex;
-  padding: 1% 0 0 0;
+  padding: 20px;
   flex-direction: column;
+  border-radius: 8px;
+  margin: 20px 20px 20px 0;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
+}
+
+#right h3 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 #right .item {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+#right .item .text {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
 }
 
 .code {
@@ -47,43 +254,103 @@
   width: 100%;
   height: 100%;
   z-index: 2;
-  background-color: #f1f2f6;
+  background-color: #ffffff;
+  overflow: auto;
+  padding: 20px;
 }
 
 .btn {
-  border: none;
+  border: 1px solid #d9d9d9;
   outline: none;
-  background-color: #1abc9c;
-  padding: 4px 8px;
-  border-radius: 5px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
+  background: #ffffff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.btn:hover {
+  color: #1890ff;
+  border-color: #1890ff;
+}
+
+.btn:active {
+  color: #096dd9;
+  border-color: #096dd9;
+}
+
+.btn:last-child {
+  margin-bottom: 0;
 }
 
 .inp {
-  border: none;
+  border: 1px solid #d9d9d9;
   outline: none;
-  padding: 4px 0 4px 10px;
-  border-radius: 5px;
-  color: #2c3e50;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #333;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.inp:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.inp[readonly] {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
 }
 
 .image {
-  width: 150px;
-  height: 200px;
-  border-radius: 5px;
-  cursor: nw-resize;
+  width: 100%;
+  height: 120px;
+  border-radius: 4px;
+  cursor: grab;
+  object-fit: contain;
 }
 
 .text {
-  color: #2c3e50;
-  font-size: 15px;
-  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* 元素选中框 */
 .selected {
-  border: 3px solid #e74c3c !important;
-  opacity: 0.7 !important;
+  border: 2px solid #1890ff !important;
+  opacity: 0.9 !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+  transform: scale(1.01);
+  transition: all 0.2s ease;
+}
+
+/* 删除按钮样式 */
+.delbtn {
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: bold !important;
+  transition: all 0.2s ease !important;
+  background: #ff4d4f !important;
+  color: white !important;
+  font-size: 12px !important;
+  width: 20px !important;
+  height: 20px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.delbtn:hover {
+  transform: scale(1.1) !important;
+  background: #f5222d !important;
 }
