@@ -112,120 +112,143 @@ class App {
   handleDrop(component, position) {
     clearAllSelected(this.midden);
     
-    const child = component.cloneNode(true);
-    child.style.position = 'absolute';
-    child.style.top = position.top + 'px';
-    child.style.left = position.left + 'px';
-    child.style.width = position.width + 'px';
-    child.style.height = position.height + 'px';
-
-    if (child.tagName === 'IMG') {
-      child.style.objectFit = 'contain';
-    }
-
-    if (child.tagName === 'TEXTAREA') {
-      child.value = component.value || '';
-    }
-
-    if (child.tagName === 'SELECT') {
-      for (let i = 0; i < component.options.length; i++) {
-        child.options[i].selected = component.options[i].selected;
+    // 检查是否是已有的组件（在midden中）
+    const isExistingComponent = Array.from(this.midden.children).includes(component);
+    
+    if (isExistingComponent) {
+      // 如果是已有的组件，只更新位置
+      component.style.top = position.top + 'px';
+      component.style.left = position.left + 'px';
+      selectElement(component);
+      this.currentComponent = component;
+      
+      // 更新组件实例的属性
+      const componentInstance = componentManager.getComponent(component.dataset.id);
+      if (componentInstance) {
+        this.propertyEditor.setCurrentComponent(componentInstance);
       }
-    }
+    } else {
+      // 如果是新组件，创建并添加到midden
+      const child = component.cloneNode(true);
+      child.style.position = 'absolute';
+      child.style.top = position.top + 'px';
+      child.style.left = position.left + 'px';
+      child.style.width = position.width + 'px';
+      child.style.height = position.height + 'px';
 
-    if (child.tagName === 'DIV' && component.querySelector('input[type="checkbox"]')) {
-      const currCheckbox = component.querySelector('input[type="checkbox"]');
-      const childCheckbox = child.querySelector('input[type="checkbox"]');
-      if (currCheckbox && childCheckbox) {
-        childCheckbox.checked = currCheckbox.checked;
+      if (child.tagName === 'IMG') {
+        child.style.objectFit = 'contain';
       }
-    }
 
-    if (child.tagName === 'DIV' && component.querySelector('input[type="radio"]')) {
-      const currRadio = component.querySelector('input[type="radio"]');
-      const childRadio = child.querySelector('input[type="radio"]');
-      if (currRadio && childRadio) {
-        childRadio.checked = currRadio.checked;
+      if (child.tagName === 'TEXTAREA') {
+        child.value = component.value || '';
       }
-    }
 
-    if (child.tagName === 'DIV' && component.querySelector('input[type="range"]')) {
-      const currRange = component.querySelector('input[type="range"]');
-      const childRange = child.querySelector('input[type="range"]');
-      if (currRange && childRange) {
-        childRange.value = currRange.value;
-      }
-    }
-
-    child.onclick = e => {
-      e.stopPropagation();
-      this.currentComponent = child;
-      selectElement(child);
-      const componentInstance = componentManager.createComponent(child);
-      this.propertyEditor.setCurrentComponent(componentInstance);
-    };
-
-    child.tabIndex = -1;
-
-    child.onkeydown = e => {
-      if (e.keyCode === 46) {
-        this.midden.removeChild(child);
-        componentManager.removeComponent(child.dataset.id);
-        this.currentComponent = null;
-        this.propertyEditor.setCurrentComponent(null);
-      }
-    };
-
-    child.oncontextmenu = e => {
-      e.preventDefault();
-    };
-
-    child.onmousedown = e => {
-      if (e.button === 2) {
-        if (child.className === 'selected') {
-          const top = child.style.top;
-          const width = position.width;
-          let left = child.style.left;
-          left = parseFloat(left.substring(0, left.length - 2)) + width - 20;
-
-          const delbtn = document.createElement('div');
-          delbtn.classList.add('delbtn');
-          delbtn.style.position = 'absolute';
-          delbtn.style.width = '20px';
-          delbtn.style.height = '20px';
-          delbtn.style.backgroundColor = 'red';
-          delbtn.style.top = top;
-          delbtn.style.left = left + 'px';
-          delbtn.style.textAlign = 'center';
-          delbtn.style.cursor = 'pointer';
-          delbtn.style.color = '#fff';
-          delbtn.textContent = 'X';
-
-          delbtn.onclick = () => {
-            this.midden.removeChild(child);
-            this.midden.removeChild(delbtn);
-            componentManager.removeComponent(child.dataset.id);
-            this.currentComponent = null;
-            this.propertyEditor.setCurrentComponent(null);
-          };
-
-          this.midden.appendChild(delbtn);
+      if (child.tagName === 'SELECT') {
+        for (let i = 0; i < component.options.length; i++) {
+          child.options[i].selected = component.options[i].selected;
         }
       }
-    };
 
-    this.midden.appendChild(child);
-    selectElement(child);
-
-    toArray(this.midden.children).forEach(c => {
-      if (component === c) {
-        this.midden.removeChild(c);
+      if (child.tagName === 'DIV' && component.querySelector('input[type="checkbox"]')) {
+        const currCheckbox = component.querySelector('input[type="checkbox"]');
+        const childCheckbox = child.querySelector('input[type="checkbox"]');
+        if (currCheckbox && childCheckbox) {
+          childCheckbox.checked = currCheckbox.checked;
+        }
       }
-    });
 
-    const componentInstance = componentManager.createComponent(child);
-    this.propertyEditor.setCurrentComponent(componentInstance);
-    this.currentComponent = child;
+      if (child.tagName === 'DIV' && component.querySelector('input[type="radio"]')) {
+        const currRadio = component.querySelector('input[type="radio"]');
+        const childRadio = child.querySelector('input[type="radio"]');
+        if (currRadio && childRadio) {
+          childRadio.checked = currRadio.checked;
+        }
+      }
+
+      if (child.tagName === 'DIV' && component.querySelector('input[type="range"]')) {
+        const currRange = component.querySelector('input[type="range"]');
+        const childRange = child.querySelector('input[type="range"]');
+        if (currRange && childRange) {
+          childRange.value = currRange.value;
+        }
+      }
+
+      child.onclick = e => {
+        e.stopPropagation();
+        this.currentComponent = child;
+        selectElement(child);
+        const componentInstance = componentManager.createComponent(child);
+        this.propertyEditor.setCurrentComponent(componentInstance);
+      };
+
+      child.tabIndex = -1;
+
+      child.onkeydown = e => {
+        if (e.keyCode === 46) {
+          this.midden.removeChild(child);
+          componentManager.removeComponent(child.dataset.id);
+          this.currentComponent = null;
+          this.propertyEditor.setCurrentComponent(null);
+        }
+      };
+
+      child.oncontextmenu = e => {
+        e.preventDefault();
+      };
+
+      child.draggable = true;
+      child.ondragstart = e => {
+        const componentRect = child.getBoundingClientRect();
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+          width: componentRect.width,
+          height: componentRect.height
+        }));
+        e.dataTransfer.effectAllowed = 'move';
+        this.dragHandler.setCurrentComponent(child);
+      };
+
+      child.onmousedown = e => {
+        if (e.button === 2) {
+          if (child.className === 'selected') {
+            const top = child.style.top;
+            const width = position.width;
+            let left = child.style.left;
+            left = parseFloat(left.substring(0, left.length - 2)) + width - 20;
+
+            const delbtn = document.createElement('div');
+            delbtn.classList.add('delbtn');
+            delbtn.style.position = 'absolute';
+            delbtn.style.width = '20px';
+            delbtn.style.height = '20px';
+            delbtn.style.backgroundColor = 'red';
+            delbtn.style.top = top;
+            delbtn.style.left = left + 'px';
+            delbtn.style.textAlign = 'center';
+            delbtn.style.cursor = 'pointer';
+            delbtn.style.color = '#fff';
+            delbtn.textContent = 'X';
+
+            delbtn.onclick = () => {
+              this.midden.removeChild(child);
+              this.midden.removeChild(delbtn);
+              componentManager.removeComponent(child.dataset.id);
+              this.currentComponent = null;
+              this.propertyEditor.setCurrentComponent(null);
+            };
+
+            this.midden.appendChild(delbtn);
+          }
+        }
+      };
+
+      this.midden.appendChild(child);
+      selectElement(child);
+
+      const componentInstance = componentManager.createComponent(child);
+      this.propertyEditor.setCurrentComponent(componentInstance);
+      this.currentComponent = child;
+    }
   }
 }
 

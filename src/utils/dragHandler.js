@@ -20,7 +20,7 @@ class DragHandler {
 
   handleDragOver(e) {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
+    e.dataTransfer.dropEffect = 'move';
     this.midden.classList.add('drag-over');
   }
 
