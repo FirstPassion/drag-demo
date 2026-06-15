@@ -344,17 +344,10 @@ const drop = e => {
         }
       }
     }
-    // 先添加新元素,然后删掉之前的元素
+    // 先添加新元素
     midden.appendChild(child)
     // 添加的时候默认选中当前的元素
     selectedEl(child)
-    // 遍历预览区的所有子元素,判断有没有和当前元素是一样的,如果一样就移除掉这个子元素
-    toArray(midden.children)
-      .forEach(c => {
-        if (curr === c) {
-          midden.removeChild(c)
-        }
-      })
     // 设置属性到右边的属性栏
     setProp()
     // 让当前选中的元素指向刚刚创建的这个元素

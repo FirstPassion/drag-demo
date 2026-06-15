@@ -217,12 +217,6 @@ class App {
     this.midden.appendChild(child);
     selectElement(child);
 
-    toArray(this.midden.children).forEach(c => {
-      if (component === c) {
-        this.midden.removeChild(c);
-      }
-    });
-
     const componentInstance = componentManager.createComponent(child);
     this.propertyEditor.setCurrentComponent(componentInstance);
     this.currentComponent = child;
