@@ -109,17 +109,17 @@ export class HistoryManager {
       selectedId: snapshot.selectedId
     });
 
-    this.isUndoRedoing = false;  // 重做完成
+    this.isUndoRedoing = false;
     return true;
   }
 
-  // 判断是否可以撤销（索引大于 0 说明前面还有历史记录）
-  canUndo(): boolean {
+  // 判断是否可以撤销
+  private canUndo(): boolean {
     return this.historyIndex > 0;
   }
 
-  // 判断是否可以重做（索引小于数组长度说明后面还有历史记录）
-  canRedo(): boolean {
+  // 判断是否可以重做
+  private canRedo(): boolean {
     return this.historyIndex < this.history.length - 1;
   }
 }

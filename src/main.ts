@@ -66,7 +66,7 @@ function initApp(): void {
   moveManager.init();  // 移动事件（画布上组件的位置移动）
 
   setupToolbarButtons(editor, persistence, store, history);  // 工具栏按钮
-  setupKeyboardShortcuts(store, history);                     // 键盘快捷键
+  setupKeyboardShortcuts(store, history, persistence);       // 键盘快捷键
 
   // ========== 6. 加载保存的状态 ==========
   loadSavedState(store, persistence);
@@ -160,26 +160,20 @@ function setupToolbarButtons(
  * - Ctrl+S: 保存
  * - Delete: 删除选中的组件
  */
-function setupKeyboardShortcuts(store: Store, history: HistoryManager): void {
-  const persistence = new PersistenceManager();
-
+function setupKeyboardShortcuts(store: Store, history: HistoryManager, persistence: PersistenceManager): void {
   document.addEventListener('keydown', (e) => {
-    // Ctrl+Z: 撤销
     if (e.ctrlKey && e.key === 'z') {
       e.preventDefault();
       history.undo();
     }
-    // Ctrl+Shift+Z 或 Ctrl+Y: 重做
     if ((e.ctrlKey && e.shiftKey && e.key === 'Z') || (e.ctrlKey && e.key === 'y')) {
       e.preventDefault();
       history.redo();
     }
-    // Ctrl+S: 保存
     if (e.ctrlKey && e.key === 's') {
       e.preventDefault();
       persistence.save(store.getState());
     }
-    // Delete: 删除选中的组件
     if (e.key === 'Delete') {
       const selectedId = store.getSelectedId();
       if (selectedId) store.removeComponent(selectedId);

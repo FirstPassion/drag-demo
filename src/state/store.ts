@@ -1,5 +1,5 @@
 import { AppState, AppEventType, AppEventHandler } from '../types';
-import { ComponentInstance } from '../types/component';
+import { ComponentInstance, ComponentProps } from '../types/component';
 
 /**
  * 中央状态管理器（发布/订阅模式）
@@ -89,11 +89,10 @@ export class Store {
    *
    * 调用链：用户从组件库拖拽组件到画布 → DragManager.handleDrop()
    *   → registry.createInstance() → store.addComponent()
-   *   → 触发 component:added 和 state:changed 事件
+   *   → 触发 state:changed 事件 → Editor.render() 重新渲染
    */
   addComponent(component: ComponentInstance): void {
     this.state.components.push(component);
-    this.emit('component:added', component);
     this.emit('state:changed', this.state);
   }
 
@@ -103,16 +102,13 @@ export class Store {
    *
    * 调用链：用户按 Delete 键 → main.ts setupKeyboardShortcuts → store.removeComponent()
    *   或：用户右键点击组件 → Editor.showDeleteButton() → store.removeComponent()
-   *   或：组件内部 onkeydown → Editor.renderComponent() → store.removeComponent()
    */
   removeComponent(id: string): void {
     this.state.components = this.state.components.filter(c => c.id !== id);
-    // 如果移除的是当前选中的组件，需要取消选中状态
     if (this.state.selectedId === id) {
       this.state.selectedId = null;
       this.emit('component:deselected', null);
     }
-    this.emit('component:removed', id);
     this.emit('state:changed', this.state);
   }
 
@@ -123,9 +119,9 @@ export class Store {
    *
    * 调用链：用户在属性面板修改值 → PropertyPanel.handleInputChange()
    *   → store.updateComponent()
-   *   或：用户拖拽移动组件 → MoveManager.setupMouseUp() → store.updateComponent()
+   *   或：用户拖拽移动组件 → MoveManager → store.updateComponent()
    */
-  updateComponent(id: string, props: Partial<import('../types/component').ComponentProps>): void {
+  updateComponent(id: string, props: Partial<ComponentProps>): void {
     const component = this.state.components.find(c => c.id === id);
     if (component) {
       component.props = { ...component.props, ...props };

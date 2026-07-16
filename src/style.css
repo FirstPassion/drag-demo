@@ -395,6 +395,34 @@ html, body {
   letter-spacing: 0.3px;
 }
 
+/* ── Property panel placeholder ── */
+.panel-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 200px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.panel-placeholder::before {
+  content: "";
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+}
+
+/* ── Hide property items ── */
+.hidden {
+  display: none !important;
+}
+
 /* ── Buttons ── */
 .btn {
   border: 1px solid var(--border);

@@ -54,14 +54,8 @@ export class PersistenceManager {
     }
   }
 
-  /**
-   * 将状态导出为 JSON 字符串
-   * @param state - 要导出的应用状态
-   * @returns 格式化的 JSON 字符串
-   *
-   * 注意：此方法只生成 JSON 字符串，下载功能由 download() 方法处理
-   */
-  export(state: AppState): string {
+  /** 将状态导出为 JSON 字符串（内部使用） */
+  private export(state: AppState): string {
     return JSON.stringify({
       version: '1.0.0',
       state,

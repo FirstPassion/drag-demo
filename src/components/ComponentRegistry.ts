@@ -113,11 +113,8 @@ export class ComponentRegistry {
     });
   }
 
-  /**
-   * 注册组件配置
-   * @param config - 组件配置
-   */
-  register(config: ComponentConfig): void {
+  /** 注册组件配置（内部使用） */
+  private register(config: ComponentConfig): void {
     this.configs.set(config.type, config);
   }
 

@@ -70,36 +70,23 @@ export interface ComponentProps {
 /**
  * 属性模式定义接口
  * 用于在属性面板中显示和编辑组件属性
- *
- * 示例：
- * {
- *   key: 'width',     // 属性名（对应 ComponentProps 的键）
- *   label: '宽度',    // 显示名称
- *   type: 'number',   // 输入框类型
- *   unit: 'px'        // 单位（显示在输入框后面）
- * }
  */
 export interface PropertySchema {
-  key: keyof ComponentProps;                                      // 属性名
-  label: string;                                                  // 显示名称
-  type: 'text' | 'number' | 'color' | 'select' | 'boolean';     // 输入框类型
-  options?: SelectOption[];                                       // 选项列表（type 为 'select' 时使用）
-  defaultValue?: unknown;                                         // 默认值
-  unit?: string;                                                  // 单位（如 'px'）
+  key: keyof ComponentProps;
+  label: string;
+  type: 'text' | 'number' | 'color' | 'select' | 'boolean';
+  unit?: string;
 }
 
 /**
  * 组件配置接口
  * 定义了组件类型的完整配置信息
- *
- * 用于在组件注册表中存储和管理组件类型
  */
 export interface ComponentConfig {
-  type: ComponentType;           // 组件类型
-  name: string;                  // 组件名称（如"预览文本"）
-  icon?: string;                 // 图标（可选）
-  defaultProps: Partial<ComponentProps>;  // 默认属性
-  propertySchema: PropertySchema[];       // 属性模式（用于属性面板）
+  type: ComponentType;
+  name: string;
+  defaultProps: Partial<ComponentProps>;
+  propertySchema: PropertySchema[];
 }
 
 /**

@@ -130,8 +130,9 @@ export class DragManager {
     let componentHeight: number;
     try {
       const sizeData = JSON.parse(e.dataTransfer!.getData('text/plain'));
-      componentWidth = sizeData.width;
-      componentHeight = sizeData.height;
+      // 取整，避免 getBoundingClientRect() 返回的小数导致显示问题
+      componentWidth = Math.round(sizeData.width);
+      componentHeight = Math.round(sizeData.height);
     } catch {
       // 解析失败时使用默认尺寸
       componentWidth = 100;
@@ -179,17 +180,14 @@ export class DragManager {
    */
   setupComponentDrag(element: HTMLElement, type: ComponentType): void {
     element.ondragstart = (e) => {
-      const dragEvent = e as DragEvent;
-
       // 存储组件卡片的尺寸信息到 dataTransfer
-      // 这样在 drop 时可以读取，用于设置新组件的初始尺寸
       const rect = element.getBoundingClientRect();
-      dragEvent.dataTransfer!.setData(
+      e.dataTransfer!.setData(
         'text/plain',
         JSON.stringify({ width: rect.width, height: rect.height })
       );
-      dragEvent.dataTransfer!.effectAllowed = 'copy';
-      dragEvent.stopPropagation();
+      e.dataTransfer!.effectAllowed = 'copy';
+      e.stopPropagation();
 
       // 创建临时组件实例，记录要创建的组件类型
       this.currentComponent = this.registry.createInstance(type);
@@ -197,7 +195,7 @@ export class DragManager {
       // 设置透明拖拽图片，隐藏浏览器默认的"幽灵图片"
       const emptyImg = new Image();
       emptyImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-      dragEvent.dataTransfer!.setDragImage(emptyImg, 0, 0);
+      e.dataTransfer!.setDragImage(emptyImg, 0, 0);
     };
   }
 
