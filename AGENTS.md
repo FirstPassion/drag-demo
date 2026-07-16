@@ -21,7 +21,7 @@ pnpm preview   # serve dist/
 ```
 src/
   main.ts                    # App entry — wires all managers and UI
-  style.css                  # Global styles (includes custom dialog styles)
+  style.css                  # Global styles (includes custom dialog + property panel styles)
   core/
     DragManager.ts           # Native drag from library to canvas
     MoveManager.ts           # In-editor element movement (mousedown/mousemove)
@@ -29,7 +29,7 @@ src/
     GridSnapper.ts           # 20px grid snapping with bounds
   components/
     Editor.ts                # Canvas render, preview mode, source download
-    PropertyPanel.ts         # Right panel — edit selected element props
+    PropertyPanel.ts         # Right panel — edit selected element props (two-way binding)
     ComponentLibrary.ts      # Left panel — draggable component cards
     ComponentRegistry.ts     # Component type registry (configs, schemas, createElement)
   state/
@@ -49,10 +49,13 @@ src/
 - **MoveManager global listeners**: Uses `document.addEventListener` for mousemove/mouseup — can interfere with native drag events if not careful.
 - **select drag interference**: `e.preventDefault()` on select elements inside draggable wrappers breaks `dragstart`. Use `e.stopPropagation()` instead (handled in DragManager).
 - **Custom dialogs are async**: `showAlert()` and `showConfirm()` return Promises. Must use `await` or `.then()` to sequence actions after dialog closes.
+- **PropertyPanel two-way binding**: Uses `oninput` for real-time updates. Component size values are rounded via `Math.round()` when displayed.
+- **PropertyPanel hides unused props**: Only shows properties defined in the component's `propertySchema`. Empty/missing props are hidden, not shown as disabled inputs.
 
 ## Architecture notes
 
 - **No framework** — pure TypeScript + DOM manipulation
 - **State**: Central `Store` with pub/sub. All mutations go through `Store.setState()`.
 - **Component types**: Registered in `ComponentRegistry` with `defaultProps` and `propertySchema`. Adding new component types = add a registry entry.
+- **Events used**: `state:changed`, `component:updated`, `component:selected`, `component:deselected`. The `component:added`/`component:removed` events exist in the type but are not emitted.
 - **Target**: ES2020, strict TypeScript, bundler module resolution

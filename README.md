@@ -90,8 +90,6 @@ src/
 | 事件类型 | 触发时机 | 监听者 |
 |---------|---------|--------|
 | `state:changed` | 任何状态变化 | Editor, HistoryManager |
-| `component:added` | 新组件添加 | - |
-| `component:removed` | 组件移除 | - |
 | `component:updated` | 组件属性修改 | PropertyPanel |
 | `component:selected` | 组件被选中 | SelectionManager, PropertyPanel |
 | `component:deselected` | 取消选中 | SelectionManager, PropertyPanel |
@@ -175,12 +173,17 @@ src/
 **操作流程**：
 1. 选中一个组件
 2. 在右侧面板修改属性值（如宽度、文本内容）
-3. 按回车或点击其他地方，修改生效
+3. 修改会实时同步到画布上的组件（双向绑定）
+
+**特性**：
+- **实时更新**：输入时立即同步到组件，无需等待失去焦点
+- **智能隐藏**：只显示组件实际拥有的属性，隐藏不存在的属性
+- **数值取整**：宽度、高度、位置等数值属性会自动取整显示
 
 **代码调用链**：
 ```
-用户修改输入框并失去焦点
-  → PropertyPanel.bindInputEvents() 的 onblur 事件
+用户在输入框输入内容
+  → PropertyPanel.bindInputEvents() 的 oninput 事件
   → handleInputChange() 处理输入值
   → store.updateComponent() 更新组件属性
   → 触发 component:updated 事件 → PropertyPanel.updatePanel()
