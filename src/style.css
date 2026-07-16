@@ -1,0 +1,531 @@
+:root {
+  --surface: #F8F9FC;
+  --panel: #FFFFFF;
+  --ink: #1A1D23;
+  --ink-soft: #475569;
+  --muted: #94A3B8;
+  --border: #E2E8F0;
+  --border-focus: #6366F1;
+  --accent: #6366F1;
+  --accent-light: rgba(99, 102, 241, 0.08);
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --danger: #EF4444;
+  --danger-hover: #DC2626;
+  --grid: #E2E8F0;
+  --grid-active: #6366F1;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: 0.15s ease;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Shell: header + 3-column body, full viewport ── */
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--surface);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--ink);
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 24px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+}
+
+.header-brand svg {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.header-actions .btn {
+  width: auto;
+  margin-bottom: 0;
+  padding: 7px 14px;
+}
+
+/* ── 3-column body ── */
+.editor-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Left: Component Library ── */
+#left {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--panel);
+  padding: 20px 16px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#left h3 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding: 0 0 12px;
+  margin-bottom: 4px;
+}
+
+/* ── Component card ── */
+.comp-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+  background: var(--surface);
+  user-select: none;
+}
+
+.comp-card:hover {
+  background: var(--accent-light);
+  border-color: rgba(99, 102, 241, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+.comp-card:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.comp-card .comp-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+
+.comp-card:hover .comp-icon {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+.comp-card .comp-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.comp-card .comp-desc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* ── Legacy left panel styles (fallback) ── */
+#left p,
+#left button,
+#left input,
+#left img,
+#left textarea,
+#left select,
+#left div[draggable] {
+  margin-bottom: 0;
+  cursor: grab;
+  transition: all var(--transition);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+}
+
+#left p:hover,
+#left button:hover,
+#left input:hover,
+#left img:hover,
+#left textarea:hover,
+#left select:hover,
+#left div[draggable]:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+
+#left p {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+  background-color: var(--surface);
+  padding: 10px 12px;
+  text-align: center;
+}
+
+#left button {
+  border: 1px solid var(--border);
+  outline: none;
+  background: var(--panel);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  width: 100%;
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+}
+
+#left button:focus-visible {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+#left input {
+  border: 1px solid var(--border);
+  outline: none;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  width: 100%;
+  background-color: var(--panel);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+#left input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+#left img {
+  width: 100%;
+  height: 80px;
+  object-fit: contain;
+}
+
+#left textarea {
+  width: 100%;
+  height: 80px;
+  resize: none;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+#left select {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: var(--panel);
+  font-size: 13px;
+  font-family: inherit;
+  appearance: auto;
+}
+
+#left div[draggable] {
+  padding: 10px 12px;
+  background-color: var(--surface);
+  display: flex;
+  align-items: center;
+}
+
+#left .select-wrapper {
+  padding: 0;
+  background-color: var(--panel);
+}
+
+#left .select-wrapper select {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: var(--panel);
+  font-size: 13px;
+  border: none;
+  outline: none;
+}
+
+#left div[draggable] input[type="checkbox"],
+#left div[draggable] input[type="radio"] {
+  margin-right: 8px;
+  cursor: grab;
+}
+
+#left div[draggable] input[type="range"] {
+  margin-right: 8px;
+  width: 70%;
+  cursor: grab;
+  accent-color: var(--accent);
+}
+
+#left div[draggable] label,
+#left div[draggable] span {
+  cursor: grab;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+/* ── Center: Canvas ── */
+#midden {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  background: var(--surface);
+  overflow: auto;
+  z-index: 0;
+  margin: 16px;
+  border-radius: var(--radius);
+  border: 1.5px dashed var(--border);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 20px 20px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+#midden.drag-over {
+  border-color: var(--grid-active);
+  border-style: solid;
+  background-image:
+    linear-gradient(var(--grid-active) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-active) 1px, transparent 1px);
+  background-size: 20px 20px;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+#midden.drag-over > * {
+  pointer-events: none;
+}
+
+#midden:empty::before {
+  content: "从左侧拖拽组件到此处";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+/* ── Right: Properties ── */
+#right {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--panel);
+  display: flex;
+  padding: 16px;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+#right h3 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  padding: 4px 0 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+
+#right .item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+#right .item .text {
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ── Buttons ── */
+.btn {
+  border: 1px solid var(--border);
+  outline: none;
+  background: var(--panel);
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.btn:active {
+  transform: scale(0.98);
+  background: var(--accent-light);
+}
+
+.btn:focus-visible {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.btn:last-child {
+  margin-bottom: 0;
+}
+
+.btn.danger {
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.btn.danger:hover {
+  background: rgba(239, 68, 68, 0.06);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ── Inputs ── */
+.inp {
+  border: 1px solid var(--border);
+  outline: none;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  background-color: var(--panel);
+  transition: all var(--transition);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.inp:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.inp[readonly] {
+  background-color: var(--surface);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+/* ── Preview overlay ── */
+.code {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: var(--panel);
+  overflow: auto;
+  padding: 24px;
+}
+
+/* ── Component library items ── */
+.image {
+  width: 100%;
+  height: 120px;
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  object-fit: contain;
+}
+
+.text {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ── Selected state ── */
+.selected {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px;
+  opacity: 0.95 !important;
+  transform: scale(1.005);
+  transition: outline var(--transition), transform var(--transition);
+}
+
+/* ── Delete button ── */
+.delbtn {
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  transition: all var(--transition) !important;
+  background: var(--danger) !important;
+  color: white !important;
+  font-size: 11px !important;
+  width: 20px !important;
+  height: 20px !important;
+  box-shadow: var(--shadow-sm) !important;
+  cursor: pointer !important;
+  border: none !important;
+  line-height: 1 !important;
+}
+
+.delbtn:hover {
+  transform: scale(1.15) !important;
+  background: var(--danger-hover) !important;
+}
