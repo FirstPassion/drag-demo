@@ -180,11 +180,14 @@ export class DragManager {
    */
   setupComponentDrag(element: HTMLElement, type: ComponentType): void {
     element.ondragstart = (e) => {
-      // 存储组件卡片的尺寸信息到 dataTransfer
-      const rect = element.getBoundingClientRect();
+      // 存储组件类型的真实默认尺寸到 dataTransfer（而不是卡片尺寸）
+      // 这样放下时创建出来的组件才符合注册表中配置的实际大小
+      const config = this.registry.getConfig(type);
+      const width = config?.defaultProps.width ?? Math.round(element.getBoundingClientRect().width);
+      const height = config?.defaultProps.height ?? Math.round(element.getBoundingClientRect().height);
       e.dataTransfer!.setData(
         'text/plain',
-        JSON.stringify({ width: rect.width, height: rect.height })
+        JSON.stringify({ width, height })
       );
       e.dataTransfer!.effectAllowed = 'copy';
       e.stopPropagation();

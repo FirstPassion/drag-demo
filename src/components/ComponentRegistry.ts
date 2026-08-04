@@ -271,6 +271,10 @@ export class ComponentRegistry {
     element.style.top = `${props.top}px`;
     element.style.left = `${props.left}px`;
 
+    // 禁用原生拖拽（尤其 img 默认可拖拽），避免浏览器劫持鼠标手势，
+    // 导致画布上组件无法通过 MoveManager 正常移动/放置
+    element.draggable = false;
+
     // 应用可选样式
     if (props.color) element.style.color = props.color;
     if (props.fontSize) element.style.fontSize = props.fontSize;
